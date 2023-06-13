@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/regmarmcem/mapbox-api/models"
+	"github.com/regmarmcem/mapbox-api/repositories"
 )
 
 
@@ -24,5 +25,11 @@ func (c *FeatureController) PostFeature(w http.ResponseWriter, r *http.Request) 
 		http.Error(w, "Cannot decode request body", http.StatusInternalServerError)
 		return
 	}
-	json.NewEncoder(w).Encode(reqFeature)
+	feature, err := repositories.InsertFeature(c.db, reqFeature)
+	if err != nil {
+		http.Error(w, "Cannot insert specified feature", http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(feature)
 }
