@@ -19,9 +19,10 @@ func NewFeatureController(db *sql.DB) *FeatureController {
 
 func (c *FeatureController) PostFeature(w http.ResponseWriter, r *http.Request) {
 	var reqFeature models.Feature
-	if err := json.NewDecoder(r.Body).Decode(&reqFeature); err != nil {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
-	}
 
+	if err := json.NewDecoder(r.Body).Decode(&reqFeature); err != nil {
+		http.Error(w, "Cannot decode request body", http.StatusInternalServerError)
+		return
+	}
 	json.NewEncoder(w).Encode(reqFeature)
 }

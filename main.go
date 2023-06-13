@@ -20,11 +20,11 @@ func main() {
 		log.Panic(".env file not found")
 	}
 
-    dbHost := os.Getenv("DB_HOSTNAME")
-    dbPort := os.Getenv("DB_PORT")
-    dbName := os.Getenv("POSTGRES_DB")
-    dbUser := os.Getenv("POSTGRES_USER")
-    dbPass := os.Getenv("POSTGRES_PASSWORD")
+	dbHost := os.Getenv("DB_HOSTNAME")
+	dbPort := os.Getenv("DB_PORT")
+	dbName := os.Getenv("POSTGRES_DB")
+	dbUser := os.Getenv("POSTGRES_USER")
+	dbPass := os.Getenv("POSTGRES_PASSWORD")
 
 	databaseUrl := fmt.Sprintf("postgresql://%s:%s/%s?user=%s&password=%s&sslmode=disable", dbHost, dbPort, dbName, dbUser, dbPass)
 
