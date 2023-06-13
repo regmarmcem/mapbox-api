@@ -4,18 +4,10 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+
+	"github.com/regmarmcem/mapbox-api/models"
 )
 
-type Feature struct {
-	ID         string   `json:"id"`
-	Properties []string `json:"properties"`
-	Geometry   Geometry `json:"geometry"`
-}
-
-type Geometry struct {
-	Coordinates [][]int `json:"coordinates"`
-	Type        string  `json:"type"`
-}
 
 type FeatureController struct {
 	db *sql.DB
@@ -26,6 +18,10 @@ func NewFeatureController(db *sql.DB) *FeatureController {
 }
 
 func (c *FeatureController) PostFeature(w http.ResponseWriter, r *http.Request) {
-	body := r.Body
-	json.NewEncoder(w).Encode(body)
+	var reqFeature models.Feature
+	if err := json.NewDecoder(r.Body).Decode(&reqFeature); err != nil {
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	}
+
+	json.NewEncoder(w).Encode(reqFeature)
 }
