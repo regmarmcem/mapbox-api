@@ -1,0 +1,13 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    env_file:
+      - .env
+    volumes:
+      - feature_data:/var/lib/postgresql/data
+    ports:
+      - 127.0.0.1:5433:5432/tcp
+
+volumes:
+  feature_data:

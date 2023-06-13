@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	_ "github.com/jackc/pgx"
+	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/joho/godotenv"
 
 	"github.com/regmarmcem/mapbox-api/api"
@@ -20,16 +20,17 @@ func main() {
 		log.Panic(".env file not found")
 	}
 
-	dbHost := os.Getenv("DB_HOSTNAME")
-	dbPort := os.Getenv("DB_PORT")
-	dbName := os.Getenv("POSTGRES_DB")
-	dbUser := os.Getenv("POSTGRES_USER")
-	dbPass := os.Getenv("POSTGRES_PASSWORD")
+    dbHost := os.Getenv("DB_HOSTNAME")
+    dbPort := os.Getenv("DB_PORT")
+    dbName := os.Getenv("POSTGRES_DB")
+    dbUser := os.Getenv("POSTGRES_USER")
+    dbPass := os.Getenv("POSTGRES_PASSWORD")
 
-	conn := fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=disable", dbHost, dbPort, dbName, dbUser, dbPass)
-	db, err := sql.Open("postgres", conn)
+	databaseUrl := fmt.Sprintf("postgresql://%s:%s/%s?user=%s&password=%s&sslmode=disable", dbHost, dbPort, dbName, dbUser, dbPass)
+
+	db, err := sql.Open("pgx", databaseUrl)
 	if err != nil {
-		log.Panic("failed to connect database")
+		panic(err)
 	}
 
 	r := api.NewRouter(db)
