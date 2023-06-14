@@ -1,4 +1,15 @@
 services:
+  app:
+    build: .
+    depends_on:
+    - postgres
+    volumes:
+    - ./:/go/src/app
+    - .env:/go/src/app/.env
+    ports:
+      - "8080:8080"
+    tty: true
+
   postgres:
     image: postgres:latest
     container_name: postgres
@@ -8,7 +19,7 @@ services:
       - ./sql/init:/docker-entrypoint-initdb.d
       - feature_data:/var/lib/postgresql/data
     ports:
-      - 127.0.0.1:5433:5432/tcp
+      - "5433:5432"
 
 volumes:
   feature_data:
