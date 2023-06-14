@@ -19,6 +19,7 @@ func NewRouter(db *sql.DB) *chi.Mux {
 		AllowCredentials: false,
 	}))
 	c := controllers.NewFeatureController(db)
+	r.MethodFunc(http.MethodGet, "/feature/list", c.ListFeatures)
 	r.MethodFunc(http.MethodPost, "/feature", c.PostFeature)
 	return r
 }

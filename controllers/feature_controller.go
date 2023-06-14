@@ -9,13 +9,20 @@ import (
 	"github.com/regmarmcem/mapbox-api/repositories"
 )
 
-
 type FeatureController struct {
 	db *sql.DB
 }
 
 func NewFeatureController(db *sql.DB) *FeatureController {
 	return &FeatureController{db: db}
+}
+
+func (c *FeatureController) ListFeatures(w http.ResponseWriter, r *http.Request) {
+	features, err := repositories.SelectFeatureList(c.db)
+	if err != nil {
+		http.Error(w, "fail internal exec\n", http.StatusInternalServerError)
+	}
+	json.NewEncoder(w).Encode(features)
 }
 
 func (c *FeatureController) PostFeature(w http.ResponseWriter, r *http.Request) {
