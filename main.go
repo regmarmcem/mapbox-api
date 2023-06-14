@@ -36,5 +36,5 @@ func main() {
 	r := api.NewRouter(db)
 	fmt.Println("web server starting...")
 
-	log.Panic(http.ListenAndServe("localhost:8080", r))
+	log.Panic(http.ListenAndServe(":8080", r))
 }

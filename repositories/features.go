@@ -18,7 +18,7 @@ func SelectFeatureList(db *sql.DB) ([]models.Feature, error) {
 	`
 	rows, err := db.Query(sqlStr)
 	if err != nil {
-		log.Println("SelectFeatureList failed")
+		log.Printf("SelectFeatureList failed: %s\n", err)
 		return nil, err
 	}
 	defer rows.Close()
